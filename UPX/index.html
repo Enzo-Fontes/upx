@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Potência Eólica</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-100">
+
+    <div id="authPage" class="flex items-center justify-center min-h-screen">
+        <div class="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-xl">
+            
+            <img src="https://placehold.co/200x80/0d9488/ffffff?text=Sua+Logo+Aqui" 
+                 alt="Logo" class="h-12 w-auto mx-auto mb-4">
+
+            <div id="authMensagem" class="hidden p-4 mb-4 rounded-lg text-center text-sm"></div>
+
+            <form id="loginForm" class="space-y-6">
+                <h2 class="text-2xl font-bold text-center text-gray-800">Login</h2>
+                <div>
+                    <label for="loginEmail" class="block text-sm font-medium text-gray-700">Email</label>
+                    <input type="email" id="loginEmail" name="email" required class="w-full mt-1 px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+                </div>
+                <div>
+                    <label for="loginPassword" class="block text-sm font-medium text-gray-700">Senha</label>
+                    <input type="password" id="loginPassword" name="password" required class="w-full mt-1 px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+                </div>
+                <button type="submit" class="w-full bg-teal-600 text-white font-bold py-3 rounded-lg shadow-md hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2">
+                    Entrar
+                </button>
+                <p class="text-sm text-center text-gray-600">
+                    Não tem uma conta? <a href="#" id="showRegister" class="font-medium text-teal-600 hover:text-teal-500">Registre-se</a>
+                </p>
+            </form>
+
+            <form id="registerForm" class="hidden space-y-6">
+                <h2 class="text-2xl font-bold text-center text-gray-800">Criar Conta</h2>
+                <div>
+                    <label for="registerEmail" class="block text-sm font-medium text-gray-700">Email</label>
+                    <input type="email" id="registerEmail" name="email" required class="w-full mt-1 px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+                </div>
+                <div>
+                    <label for="registerPassword" class="block text-sm font-medium text-gray-700">Senha</label>
+                    <input type="password" id="registerPassword" name="password" required class="w-full mt-1 px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="Mínimo 6 caracteres">
+                </div>
+                <button type="submit" class="w-full bg-teal-600 text-white font-bold py-3 rounded-lg shadow-md hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2">
+                    Registrar
+                </button>
+                <p class="text-sm text-center text-gray-600">
+                    Já tem uma conta? <a href="#" id="showLogin" class="font-medium text-teal-600 hover:text-teal-500">Faça o login</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <div id="appPage" class="hidden flex-col md:flex-row min-h-screen">
+        <div class="md:w-1/3 bg-teal-700 text-teal-100 p-8 md:p-12 flex flex-col justify-center shadow-lg z-10">
+            <img src="https://placehold.co/200x80/0d9488/ffffff?text=Sua+Logo+Aqui" 
+                 alt="Logo" class="h-14 w-auto mb-8">
+            
+            <h1 class="text-3xl md:text-4xl font-bold text-white mb-4">Painel de Energia Eólica</h1>
+            <p class="text-lg leading-relaxed">
+                Calcule e salve os dados de suas turbinas eólicas. Veja a potência estimada para cada local.
+            </p>
+            
+            <div class="mt-8 bg-teal-800 p-3 rounded-lg">
+                <p class="text-sm text-teal-200">Logado como:</p>
+                <p id="userIdDisplay" class="text-sm text-white font-mono break-all">Carregando...</p>
+                <button id="logoutButton" class="mt-2 w-full text-left text-teal-200 hover:text-white font-semibold underline focus:outline-none">
+                    Sair (Logout)
+                </button>
+            </div>
+        </div>
+
+        <div class="md:w-2/3 bg-white p-8 md:p-12 flex justify-center items-start md:overflow-y-auto">
+            <div class="w-full max-w-xl">
+                <section id="form-section">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-6">Adicionar Nova Turbina</h2>
+                    <div id="mensagem" class="hidden p-4 mb-4 rounded-lg"></div>
+
+                    <form id="windCalculator" class="space-y-6">
+                        <div>
+                            <label for="nome" class="block text-sm font-medium text-gray-700 mb-1">ID da sua turbina</label>
+                            <input type="text" id="nome" name="nome" class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500" placeholder="Ex: TURBINA-001" required>
+                        </div>
+                        <div>
+                            <label for="velocidade" class="block text-sm font-medium text-gray-700 mb-1">Velocidade Média do Vento (km/h)</label>
+                            <input type="number" id="velocidade" name="velocidade" class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500" placeholder="Ex: 30" required>
+                        </div>
+                        <div>
+                            <label for="raio" class="block text-sm font-medium text-gray-700 mb-1">Raio da Pá (metros)</label>
+                            <input type="number" id="raio" name="raio" step="0.01" class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500" placeholder="Ex: 1.5" required>
+                        </div>
+                        <button type="submit" id="submitButton" class="w-full bg-teal-600 text-white font-bold py-3 px-4 rounded-lg shadow-md hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 transition duration-200 text-lg mt-6">
+                            Salvar Turbina
+                        </button>
+                    </form>
+                </section>
+
+                <section id="lista-section" class="mt-12">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-6">Minhas Turbinas</h2>
+                    <div id="turbinasContainer" class="space-y-4">
+                        <p id="loadingTurbinas" class="text-gray-500">Carregando turbinas salvas...</p>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>

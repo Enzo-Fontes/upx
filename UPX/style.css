@@ -1,0 +1,17 @@
+/* Define a fonte Inter como padrão */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f3f4f6; /* fallback caso tailwind falhe */
+}
+
+/* Estilo para o ícone de lixeira (SVG) */
+.trash-icon {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.trash-icon:hover {
+    color: #b91c1c; /* cor vermelha de alerta */
+}
